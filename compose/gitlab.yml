@@ -1,8 +1,7 @@
 # Override file to deploy gitlab
 proxy:
   environment:
-    - "ADOP_GERRIT_ENABLED=false"
-    - "ADOP_GITLAB_ENABLED=true"
+    - "GIT_REPO=gitlab"
 
 jenkins:
   environment:

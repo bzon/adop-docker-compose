@@ -1,8 +1,7 @@
 # if the user selected Gerrit as SCM
 proxy:
   environment:
-    - "ADOP_GERRIT_ENABLED=true"
-    - "ADOP_GITLAB_ENABLED=false"
+    - "GIT_REPO=gerrit"
 
 jenkins:
   environment:
