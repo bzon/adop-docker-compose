@@ -19,6 +19,7 @@ proxy:
     - "LDAP_GROUP_ATTRIBUTE=member"
     - "LDAP_USER_ID_ATTRIBUTE=cn"
     - "LDAP_USER_OBJECT_CLASS=inetOrgPerson"
+    - "GIT_INIT=0"
 
 ldap:
   container_name: ldap
