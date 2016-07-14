@@ -1,0 +1,5 @@
+gitlab:
+  volumes:
+    - gitlab_etc:/etc/gitlab
+    - gitlab_opt:/var/opt/gitlab
+    - gitlab_log:/var/log/gitlab

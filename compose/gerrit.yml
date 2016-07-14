@@ -2,6 +2,10 @@
 jenkins:
   environment:
     ADOP_GITLAB_ENABLED: "true"
+    GERRIT_HOST_NAME: "gerrit"
+    GERRIT_FRONT_END_URL: "http://gerrit:8080/gerrit"
+    GERRIT_JENKINS_USERNAME: "jenkins"
+    GERRIT_JENKINS_PASSWORD: ${PASSWORD_JENKINS}
 
 gerrit-mysql:
   container_name: gerrit-mysql
