@@ -6,6 +6,7 @@ proxy:
 jenkins:
   environment:
     ADOP_GITLAB_ENABLED: "false"
+    GIT_REPO: "gerrit"
     GERRIT_HOST_NAME: "gerrit"
     GERRIT_FRONT_END_URL: "http://gerrit:8080/gerrit"
     GERRIT_JENKINS_USERNAME: "jenkins"
