@@ -1,0 +1,67 @@
+# if the user selected Gerrit as SCM
+proxy:
+  environment:
+    - "GIT_REPO=gerrit"
+
+jenkins:
+  environment:
+    ADOP_GITLAB_ENABLED: "false"
+    GIT_REPO: "gerrit"
+    GERRIT_HOST_NAME: "gerrit"
+    GERRIT_FRONT_END_URL: "http://gerrit:8080/gerrit"
+    GERRIT_JENKINS_USERNAME: "jenkins"
+    GERRIT_JENKINS_PASSWORD: ${PASSWORD_JENKINS}
+
+gerrit-mysql:
+  container_name: gerrit-mysql
+  restart: always
+  image: mysql:5.6.25
+  net: ${CUSTOM_NETWORK_NAME}
+  expose:
+    - "3306"
+  environment:
+    MYSQL_ROOT_PASSWORD: ${PASSWORD_SQL}
+    MYSQL_USER: ${GERRIT_MYSQL_USER}
+    MYSQL_PASSWORD: ${GERRIT_MYSQL_PASSWORD}
+    MYSQL_DATABASE: ${GERRIT_MYSQL_DATABASE}
+
+gerrit:
+  container_name: gerrit
+  restart: always
+  #build: ../images/docker-gerrit/
+  image: accenture/adop-gerrit:0.1.2
+  privileged: true
+  net: ${CUSTOM_NETWORK_NAME}
+  expose:
+    - "8080"
+    - "29418"
+  environment:
+    - "dependency:container==gerrit-mysql"
+    - "REPO_PATH=/var/git/repos"
+    - "WEBURL=${PROTO}://${TARGET_HOST}/gerrit/"
+    - "DATABASE_TYPE=mysql"
+    - "DB_HOSTNAME=gerrit-mysql"
+    - "DB_PORT=3306"
+    - "DB_NAME=${GERRIT_MYSQL_DATABASE}"
+    - "DB_USER=${GERRIT_MYSQL_USER}"
+    - "DB_PASSWORD=${GERRIT_MYSQL_PASSWORD}"
+    - "AUTH_LOGOUTURL=${PROTO}://${TARGET_HOST}/gerrit/"
+    - "AUTH_TYPE=LDAP"
+    - "GERRIT_PASSWORD=${PASSWORD_GERRIT}"
+    - "JENKINS_PASSWORD=${PASSWORD_JENKINS}"
+    - "INITIAL_ADMIN_USER=${INITIAL_ADMIN_USER}"
+    - "INITIAL_ADMIN_PASSWORD=${INITIAL_ADMIN_PASSWORD_PLAIN}"
+    - "LDAP_SERVER=ldap:389"
+    - "LDAP_ACCOUNTBASE=${LDAP_FULL_DOMAIN}"
+    - "LDAP_ACCOUNTPATTERN=(cn=$${username})"
+    - "LDAP_ACCOUNTFULLNAME=$${cn}"
+    - "LDAP_ACCOUNTEMAILADDRESS=mail"
+    - "LDAP_USERNAME=cn=admin,${LDAP_FULL_DOMAIN}"
+    - "LDAP_PASSWORD=${LDAP_PWD}"
+    - "LDAP_GROUPBASE=ou=groups,${LDAP_FULL_DOMAIN}"
+    - "LDAP_GROUPPATTERN=(cn=$${groupname})"
+    - "LDAP_GROUPMEMBERPATTERN=(uniqueMember=$${dn})"
+    - "HTTPD_LISTENURL=proxy-${PROTO}://0.0.0.0:8080/gerrit"
+    - "USER_NAME=${GERRIT_USER_NAME}"
+    - "USER_EMAIL=${GERRIT_USER_EMAIL}"
+    - "DOWNLOAD_SCHEME=http"

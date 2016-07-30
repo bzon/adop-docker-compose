@@ -1,4 +1,17 @@
 # Override file to deploy gitlab
+proxy:
+  environment:
+    - "GIT_REPO=gitlab"
+
+jenkins:
+  environment:
+    ADOP_GERRIT_ENABLED: "false"
+    GIT_REPO: "gitlab"
+    GITLAB_HOST_NAME: "root"
+    GITLAB_FRONT_END_URL: "http://gitlab/gitlab"
+    GITLAB_JENKINS_USERNAME: "jenkins"
+    GITLAB_JENKINS_PASSWORD: ${PASSWORD_JENKINS}
+    GITLAB_ROOT_PASSWORD: ${PASSWORD_GITLAB}
 
 gitlab:
   container_name: gitlab
@@ -9,10 +22,6 @@ gitlab:
     - "80"
     - "443"
     - "22"
-  volumes:
-    - gitlab_etc:/etc/gitlab
-    - gitlab_opt:/var/opt/gitlab
-    - gitlab_log:/var/log/gitlab
   environment:
     GITLAB_ROOT_PASSWORD: ${PASSWORD_GITLAB}
     GITLAB_OMNIBUS_CONFIG: |

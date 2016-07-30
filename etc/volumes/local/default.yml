@@ -8,16 +8,6 @@ ldap:
       - ldap_db:/var/lib/ldap
       - ldap_static:/etc/ldap
 
-gerrit-mysql:
-  volumes:
-    - gerrit_mysql_data:/var/lib/mysql
-
-gerrit:
-  user: root
-  volumes:
-    - git_repos:/var/git/repos 
-    - gerrit_review_site:/var/gerrit/review_site 
-
 sensu-api:
   volumes:
     - sensu_api_conf:/etc/sensu/conf.d
