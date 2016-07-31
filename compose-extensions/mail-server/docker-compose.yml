@@ -23,4 +23,4 @@ mail-server:
     - "993:993"
   volumes:
     - maildata:/var/mail
-    - ./mail-config/:/tmp/docker-mailserver/
+    - ../../mail-config/:/tmp/docker-mailserver/

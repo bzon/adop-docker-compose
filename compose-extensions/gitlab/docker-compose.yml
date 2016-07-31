@@ -4,7 +4,12 @@ jenkins:
   environment:
     ADOP_GERRIT_ENABLED: "false"
     ADOP_GITLAB_ENABLED: "true"
-    PASSWORD_GITLAB: "${PASSWORD_GITLAB}"
+    GIT_REPO: "gitlab"
+    GITLAB_HOST_NAME: "root"
+    GITLAB_FRONT_END_URL: "http://gitlab/gitlab"
+    GITLAB_JENKINS_USERNAME: "jenkins"
+    GITLAB_JENKINS_PASSWORD: ${PASSWORD_JENKINS}
+    GITLAB_ROOT_PASSWORD: ${PASSWORD_GITLAB}
 
 proxy:
   image: bzon/adop-nginx:0.4.0 
@@ -56,4 +61,4 @@ gitlab:
           allow_username_or_email_login: false
           block_auto_created_users: false
           base: '${LDAP_FULL_DOMAIN}'
-
+      EOS
