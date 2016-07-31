@@ -3,6 +3,12 @@ jenkins:
   environment:
     ADOP_GERRIT_ENABLED: "false"
     ADOP_GITLAB_ENABLED: "true"
+    PASSWORD_GITLAB: "${PASSWORD_GITLAB}"
+
+jenkins-slave:
+  environment:
+    PASSWORD_GITLAB: "${PASSWORD_GITLAB}"
+    PUBLIC_IP: "${PUBLIC_IP}"
 
 gitlab:
   container_name: gitlab
