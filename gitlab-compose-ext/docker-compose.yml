@@ -1,9 +1,13 @@
 # Override file to deploy gitlab
+jenkins:
+  environment:
+    ADOP_GERRIT_ENABLED: "false"
+    ADOP_GITLAB_ENABLED: "true"
 
 gitlab:
   container_name: gitlab
   restart: always
-  image: gitlab/gitlab-ce:8.9.3-ce.0
+  image: gitlab/gitlab-ce:8.10.2-ce.0
   net: ${CUSTOM_NETWORK_NAME}
   expose:
     - "80"
@@ -40,4 +44,4 @@ gitlab:
           allow_username_or_email_login: false
           block_auto_created_users: false
           base: '${LDAP_FULL_DOMAIN}'
-      EOS
+
