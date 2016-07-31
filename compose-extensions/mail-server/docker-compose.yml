@@ -1,3 +1,13 @@
+jenkins:
+  environment:
+    LDAP_DOMAIN: "${LDAP_DOMAIN}"
+    SMTP_USER: "${INITIAL_ADMIN_USER}@${LDAP_DOMAIN}"
+    SMTP_PASSWORD: "${INITIAL_ADMIN_PASSWORD_PLAIN}"
+    SMTP_HOST: "mail-server"
+    SMTP_PORT: "25"
+    SMTP_SYSAD_EMAIL: "jenkins@adop-core"
+    ADOP_SMTP_ENABLED: "true"
+
 mail-server:
   image: tvial/docker-mailserver:v2
   hostname: mail-server

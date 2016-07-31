@@ -1,9 +1,15 @@
 # Override file to deploy gitlab
 jenkins:
+  image: bzon/adop-jenkins:bzon-0.3
   environment:
     ADOP_GERRIT_ENABLED: "false"
     ADOP_GITLAB_ENABLED: "true"
     PASSWORD_GITLAB: "${PASSWORD_GITLAB}"
+
+proxy:
+  image: bzon/adop-nginx:0.4.0 
+  environment:
+    GIT_REPO: "gitlab"
 
 jenkins-slave:
   environment:
