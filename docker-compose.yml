@@ -187,6 +187,12 @@ jenkins:
     DOCKER_HOST: ${DOCKER_HOST}
     DOCKER_CLIENT_CERT_PATH: ${DOCKER_CLIENT_CERT_PATH}
     DOCKER_NETWORK_NAME: ${CUSTOM_NETWORK_NAME}
+    SMTP_USER: "${INITIAL_ADMIN_USER}@${LDAP_DOMAIN}"
+    SMTP_PASSWORD: "${INITIAL_ADMIN_PASSWORD_PLAIN}"
+    SMTP_HOST: "mail-server"
+    SMTP_PORT: "25"
+    SMTP_SYSAD_EMAIL: "jenkins@adop-core"
+    ADOP_SMTP_ENABLED: "true"
 
 jenkins-slave:
   container_name: jenkins-slave

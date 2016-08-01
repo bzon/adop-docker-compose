@@ -1,12 +1,11 @@
 # Override file to deploy gitlab
 jenkins:
-  image: bzon/adop-jenkins:bzon-0.3
+#  image: bzon/adop-jenkins:bzon-0.3
+  image: jenkins-test
   environment:
     ADOP_GERRIT_ENABLED: "false"
     ADOP_GITLAB_ENABLED: "true"
     GIT_REPO: "gitlab"
-    GITLAB_HOST_NAME: "root"
-    GITLAB_FRONT_END_URL: "http://gitlab/gitlab"
     GITLAB_JENKINS_USERNAME: "jenkins"
     GITLAB_JENKINS_PASSWORD: ${PASSWORD_JENKINS}
     GITLAB_ROOT_PASSWORD: ${PASSWORD_GITLAB}

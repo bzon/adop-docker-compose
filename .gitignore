@@ -1,3 +1,5 @@
+volumes
+mail-config
 .DS_Store
 git-repos-vol
 elk-data-vol
