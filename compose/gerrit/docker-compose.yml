@@ -19,6 +19,12 @@ gerrit-mysql:
     MYSQL_USER: ${GERRIT_MYSQL_USER}
     MYSQL_PASSWORD: ${GERRIT_MYSQL_PASSWORD}
     MYSQL_DATABASE: ${GERRIT_MYSQL_DATABASE}
+  log_driver: "syslog"
+  log_opt:
+    syslog-address: "udp://${LOGSTASH_HOST}:25826"
+    syslog-tag: "gerrit-mysql"
+  volumes:
+    - gerrit_mysql_data:/var/lib/mysql
 
 gerrit:
   container_name: gerrit
@@ -59,13 +65,10 @@ gerrit:
     - "HTTPD_LISTENURL=proxy-${PROTO}://0.0.0.0:8080/gerrit"
     - "USER_NAME=${GERRIT_USER_NAME}"
     - "USER_EMAIL=${GERRIT_USER_EMAIL}"
-
-gerrit-mysql:
-  volumes:
-    - gerrit_mysql_data:/var/lib/mysql
-
-gerrit:
-  user: root
+  log_driver: "syslog"
+  log_opt:
+    syslog-address: "udp://${LOGSTASH_HOST}:25826"
+    syslog-tag: "gerrit"
   volumes:
     - git_repos:/var/git/repos
     - gerrit_review_site:/var/gerrit/review_site

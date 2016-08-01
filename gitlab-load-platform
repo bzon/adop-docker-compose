@@ -1,0 +1,61 @@
+#!/bin/bash -e
+
+MAX_RETRY=15
+TARGET_HOST=${TARGET_HOST:-localhost}
+
+retry_handler() {
+if [[ $MAX_RETRY -lt $COUNT ]]; then
+  echo "Max retries limit has been reached.. Exiting script."
+  exit 0
+else
+  echo "$1"
+fi
+}
+
+# Export INITIAL ADMIN credentials
+# -------------------------------------------------------------------------------------
+export $(docker exec jenkins env | grep ADMIN)
+
+# Wait for Jenkins to be up and running
+# -------------------------------------------------------------------------------------
+COUNT=1
+until [[ $(curl -I -s ${ADOP_CLI_USER}:${ADOP_CLI_PASSWORD}@${TARGET_HOST}/jenkins/|head -n 1|cut -d$' ' -f2) == 200 ]] || [[ $MAX_RETRY -lt $COUNT ]]
+do
+  echo "Jenkins unavailable, sleeping for 5s"
+  sleep 5
+  ((COUNT ++))
+done
+retry_handler "Jenkins instance is up and running man!"
+
+# Wait for Gitlab to be up and running
+# -------------------------------------------------------------------------------------       
+COUNT=1
+until [[ $(curl -I -s ${ADOP_CLI_USER}:${ADOP_CLI_PASSWORD}@${TARGET_HOST}/gitlab/users/sign_in|head -n 1|cut -d$' ' -f2) == 200 ]] || [[ $MAX_RETRY -lt $COUNT ]]
+do
+  echo "Gitlab unavailable, sleeping for 5s"
+  sleep 5 
+  ((COUNT ++))
+done
+retry_handler "Gitlab instance is up and running man!"
+
+# Fix for known ssh problems of Jenkins to Gitlab container connection - Disable session pam_login 
+# https://github.com/gitlabhq/gitlabhq/issues/6537 
+# http://www.linuxweblog.com/blogs/sandip/20090203/setloginuid-failed-opening-loginuid 
+# -------------------------------------------------------------------------------------
+docker exec gitlab sed -i "s/session    required     pam_loginuid.so/session    optional     pam_loginuid.so/" /etc/pam.d/sshd
+
+# Load Gitlab Platform - Create Generate Workspace job
+# -------------------------------------------------------------------------------------
+GREP_RETURN_CODE=0
+JOB_URL=localhost/jenkins/job/Gitlab_Load_Platform
+JOB_STATUS_URL=${JOB_URL}/lastBuild/api/json
+
+curl -s -X POST "${ADOP_CLI_USER}:${ADOP_CLI_PASSWORD}@${JOB_URL}/build?delay=0sec"
+
+echo "Waiting for $JOB_URL to complete.."
+while [[ $GREP_RETURN_CODE -eq 0 ]]; do
+  sleep 5
+  curl --silent $JOB_STATUS_URL | grep result\":null > /dev/null
+  GREP_RETURN_CODE=$?
+done
+
