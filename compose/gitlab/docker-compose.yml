@@ -1,6 +1,7 @@
 # Override file to deploy gitlab
 jenkins:
-  image: bzon/adop-jenkins:bzon-0.3.1
+#  image: bzon/adop-jenkins:bzon-0.3.1
+  image: accenturepdc/adop-jenkins
   environment:
     ADOP_GERRIT_ENABLED: "false"
     ADOP_GITLAB_ENABLED: "true"
@@ -11,7 +12,7 @@ jenkins:
     GITLAB_ROOT_PASSWORD: ${PASSWORD_GITLAB}
 
 proxy:
-  image: bzon/adop-nginx:0.4.1
+  image: accenturepdc/adop-nginx
   environment:
     GIT_REPO: "gitlab"
 

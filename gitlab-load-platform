@@ -56,7 +56,7 @@ GREP_RETURN_CODE=0
 JOB_URL=${TARGET_HOST}/jenkins/job/Gitlab_Load_Platform
 JOB_STATUS_URL=${JOB_URL}/lastBuild/api/json
 
-curl -s -X POST "${ADOP_CLI_USER}:${ADOP_CLI_PASSWORD}@${JOB_URL}/build?delay=0sec"
+curl -s -X POST "${ADOP_CLI_USER}:${ADOP_CLI_PASSWORD}@${JOB_URL}/buildWithParameters?delay=0sec"
 
 echo "Waiting for $JOB_URL to complete.."
 while [[ $GREP_RETURN_CODE -eq 0 ]]; do
