@@ -1,19 +1,19 @@
 # Recursive function to check strength of user password
 function checkPassword {
  
-#    # Check to disallow usage of the word password
-#    if [[ "$1" = *"Password"* ]] || [[ "$1" = *"password"* ]]; then
-#        echo "You are not allowed to use a password containing the word password! Please enter another password: "
-#        read -s INITIAL_ADMIN_PASSWORD_PLAIN
-#        checkPassword $INITIAL_ADMIN_PASSWORD_PLAIN
-#    fi
-#    
-#    # Check to ensure username is not part of password
-#    if [[ "$1" = *$INITIAL_ADMIN_USER* ]]; then
-#        echo "You are not allowed to include your username in your password! Please enter another password: "
-#        read -s INITIAL_ADMIN_PASSWORD_PLAIN
-#        checkPassword $INITIAL_ADMIN_PASSWORD_PLAIN
-#    fi
+    # Check to disallow usage of the word password
+    if [[ "$1" = *"Password"* ]] || [[ "$1" = *"password"* ]]; then
+        echo "You are not allowed to use a password containing the word password! Please enter another password: "
+        read -s INITIAL_ADMIN_PASSWORD_PLAIN
+        checkPassword $INITIAL_ADMIN_PASSWORD_PLAIN
+    fi
+    
+    # Check to ensure username is not part of password
+    if [[ "$1" = *$INITIAL_ADMIN_USER* ]]; then
+        echo "You are not allowed to include your username in your password! Please enter another password: "
+        read -s INITIAL_ADMIN_PASSWORD_PLAIN
+        checkPassword $INITIAL_ADMIN_PASSWORD_PLAIN
+    fi
  
     # Check to ensure password is a minimum of 8 characters
     LEN=${#1}
@@ -23,14 +23,14 @@ function checkPassword {
         checkPassword $INITIAL_ADMIN_PASSWORD_PLAIN
     fi
  
-    # Check to ensure password contains numerical characters
-#    if [[ $1 =~ [0-9] ]]; then
-#        echo
-#    else
-#        echo "Your password must contain a number. Try again: "
-#        read -s INITIAL_ADMIN_PASSWORD_PLAIN
-#        checkPassword $INITIAL_ADMIN_PASSWORD_PLAIN
-#    fi 
+    # Check to ensure password contains numerical characters#
+    if [[ $1 =~ [0-9] ]]; then
+        echo
+    else
+        echo "Your password must contain a number. Try again: "
+        read -s INITIAL_ADMIN_PASSWORD_PLAIN
+        checkPassword $INITIAL_ADMIN_PASSWORD_PLAIN
+    fi 
     
     echo "Your provided password satisfies the strength criteria."
  
