@@ -1,7 +1,13 @@
 #!/bin/bash -e
 
-MAX_RETRY=15
+MAX_RETRY=30
 TARGET_HOST=${TARGET_HOST:-localhost}
+
+if [[ -z ${ADOP_CLI_USER} ]] || [[ -z ${ADOP_CLI_PASSWORD} ]]; then
+  echo "ADOP_CLI_USER or ADOP_CLI_PASSWORD is not defined."
+  echo "Please run ./adop target -h to set this up."
+  exit 0
+fi
 
 retry_handler() {
 if [[ $MAX_RETRY -lt $COUNT ]]; then
