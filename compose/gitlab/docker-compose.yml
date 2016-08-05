@@ -11,7 +11,7 @@ jenkins:
     GITLAB_ROOT_PASSWORD: ${PASSWORD_GITLAB}
 
 proxy:
-  image: bzon/adop-nginx:0.4.0 
+  image: bzon/adop-nginx:0.4.1
   environment:
     GIT_REPO: "gitlab"
 
